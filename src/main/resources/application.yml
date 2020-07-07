@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    database: postgresql
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/prueba
+    username: postgres
+    password: renzo123
+
+application:
+  error:
+    backend:
+      create-employee: 'Error al guardar al Employee'
+      update-employee: 'Error al actualizar al Employee'
+      get-employee: 'Employee no encontrado'
+
+logging:
+  level:
+    com:
+      renzo:
+        employee: TRACE
