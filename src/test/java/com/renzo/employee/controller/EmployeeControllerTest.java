@@ -60,7 +60,7 @@ class EmployeeControllerTest {
     Mockito.when(employeeService.findById(Mockito.anyInt()))
         .thenReturn(Single.just(employeeMapper.employeeDto()));
 
-    TestObserver<EmployeeDto> testObserver = employeeController.findEmployeeById(1).test();
+    TestObserver<PersonResponse> testObserver = employeeController.findEmployeeById(1).test();
 
     testObserver.awaitTerminalEvent();
 
