@@ -48,14 +48,16 @@ public class EmployeeController {
   }
 
   @GetMapping(path = "/{id}")
-  public Single<EmployeeDto> findEmployeeById(@PathVariable("id") Integer id) {
-    return employeeService.findById(id);
+  public Single<PersonResponse> findEmployeeById(@PathVariable("id") Integer id) {
+    return employeeService.findById(id)
+            .map(this::personResponse);
   }
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping(path = "")
   public Completable saveEmployee(@RequestBody EmployeeRequest employeeRequest) {
-    return employeeService.saveEmployee(employeeDto(employeeRequest));
+    return Single.fromCallable(() -> employeeDto(employeeRequest))
+            .flatMapCompletable(employeeService::saveEmployee);
   }
 
   private EmployeeDto employeeDto(EmployeeRequest employeeRequest) {
