@@ -3,6 +3,7 @@ package com.renzo.employee.business.dao;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.renzo.employee.config.exception.EmployeeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -90,7 +91,7 @@ class EmployeeDaoTest {
   @Test
   void whenSaveEmployeeThenReturnError() {
 
-    Mockito.when(employeeRepository.save(Mockito.any())).thenReturn(new Throwable());
+    Mockito.when(employeeRepository.save(Mockito.any())).thenReturn(employeeException());
 
     TestObserver<Void> testObserver = employeeDao.saveEmployee(employeeMapper.employeeDto()).test();
 
@@ -98,6 +99,10 @@ class EmployeeDaoTest {
 
     testObserver.assertNotComplete().assertNoValues();
 
+  }
+
+  private EmployeeException employeeException() {
+    return new EmployeeException("Failed to save an employee.", new Throwable());
   }
 
 }

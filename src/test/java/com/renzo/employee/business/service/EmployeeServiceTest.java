@@ -1,5 +1,7 @@
 package com.renzo.employee.business.service;
 
+import com.renzo.employee.config.exception.EmployeeException;
+import com.renzo.employee.config.exception.EmployeeNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,7 +33,8 @@ class EmployeeServiceTest {
   @Test
   void whenFindAllThenReturnListEmployees() {
 
-    Mockito.when(employeeDao.findAll()).thenReturn(Observable.just(employeeMapper.employeeDto()));
+    Mockito.when(employeeDao.findAll())
+            .thenReturn(Observable.just(employeeMapper.employeeDto()));
 
     TestObserver<EmployeeDto> testObserver = employeeService.findAll().test();
 
@@ -44,7 +47,8 @@ class EmployeeServiceTest {
   @Test
   void whenSaveEmployeeThenReturnSuccessful() {
 
-    Mockito.when(employeeDao.saveEmployee(Mockito.any())).thenReturn(Completable.complete());
+    Mockito.when(employeeDao.saveEmployee(Mockito.any()))
+            .thenReturn(Completable.complete());
 
     TestObserver<Void> testObserver =
         employeeService.saveEmployee(employeeMapper.employeeDto()).test();
@@ -71,7 +75,8 @@ class EmployeeServiceTest {
   @Test
   void whenFindByIdThenReturnError() {
 
-    Mockito.when(employeeDao.findById(Mockito.anyInt())).thenReturn(Single.error(new Throwable()));
+    Mockito.when(employeeDao.findById(Mockito.anyInt()))
+            .thenReturn(Single.error(this::employeeNotFoundException));
 
     TestObserver<EmployeeDto> testObserver = employeeService.findById(1).test();
 
@@ -84,7 +89,8 @@ class EmployeeServiceTest {
   @Test
   void whenSaveEmployeeThenReturnError() {
 
-    Mockito.when(employeeDao.saveEmployee(Mockito.any())).thenReturn(Completable.error(new Throwable()));
+    Mockito.when(employeeDao.saveEmployee(Mockito.any()))
+            .thenReturn(Completable.error(this::employeeException));
 
     TestObserver<Void> testObserver = employeeService.saveEmployee(employeeMapper.employeeDto()).test();
 
@@ -92,6 +98,14 @@ class EmployeeServiceTest {
 
     testObserver.assertNotComplete().assertNoValues();
 
+  }
+
+  private EmployeeException employeeException() {
+    return new EmployeeException("Failed to save an employee.", new Throwable());
+  }
+
+  private EmployeeNotFoundException employeeNotFoundException() {
+    return new EmployeeNotFoundException("Error searching for an employee.", new Throwable());
   }
 
 }
