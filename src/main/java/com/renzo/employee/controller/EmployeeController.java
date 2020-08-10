@@ -44,23 +44,23 @@ public class EmployeeController {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "Retorna todos los Empleados")})
   public Observable<PersonResponse> listOfEmployees() {
     return this.employeeService.findAll()
-            .map(this::personResponse);
+            .map(this::buildPersonResponse);
   }
 
   @GetMapping(path = "/{id}")
   public Single<PersonResponse> findEmployeeById(@PathVariable("id") Integer id) {
     return employeeService.findById(id)
-            .map(this::personResponse);
+            .map(this::buildPersonResponse);
   }
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping(path = "")
   public Completable saveEmployee(@RequestBody EmployeeRequest employeeRequest) {
-    return Single.fromCallable(() -> employeeDto(employeeRequest))
+    return Single.fromCallable(() -> buildEmployeeDto(employeeRequest))
             .flatMapCompletable(employeeService::saveEmployee);
   }
 
-  private EmployeeDto employeeDto(EmployeeRequest employeeRequest) {
+  private EmployeeDto buildEmployeeDto(EmployeeRequest employeeRequest) {
     return EmployeeDto.builder()
             .nombre(employeeRequest.getPerson().getNombre())
             .apellidoPaterno(employeeRequest.getPerson().getApellidoPaterno())
@@ -70,7 +70,7 @@ public class EmployeeController {
             .sueldo(employeeRequest.getDetail().getSalario())
             .build();
   }
-  private PersonResponse personResponse(EmployeeDto employeeDto) {
+  private PersonResponse buildPersonResponse(EmployeeDto employeeDto) {
     return PersonResponse.builder()
             .nombre(employeeDto.getNombre())
             .apellidoPaterno(employeeDto.getApellidoPaterno())

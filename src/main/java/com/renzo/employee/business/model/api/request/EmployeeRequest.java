@@ -1,8 +1,5 @@
 package com.renzo.employee.business.model.api.request;
 
-import com.renzo.employee.business.model.api.domain.Detail;
-import com.renzo.employee.business.model.api.domain.Person;
-
 import javax.validation.Valid;
 
 import lombok.AllArgsConstructor;
@@ -27,9 +24,9 @@ import lombok.ToString;
 public class EmployeeRequest {
 
   @Valid
-  private Person person;
+  private EmployeePerson person;
 
   @Valid
-  private Detail detail;
+  private EmployeeDetail detail;
 
 }
