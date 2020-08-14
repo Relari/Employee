@@ -1,11 +1,9 @@
 package com.renzo.employee.business.model.api.request;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -15,18 +13,17 @@ import lombok.ToString;
  * @version 1.0.0
  */
 
-@AllArgsConstructor
-@Builder
 @Getter
-@NoArgsConstructor
 @Setter
 @ToString
 public class EmployeeRequest {
 
   @Valid
+  @NotNull
   private EmployeePerson person;
 
   @Valid
+  @NotNull
   private EmployeeDetail detail;
 
 }
