@@ -1,7 +1,5 @@
 package com.renzo.employee.business.model.api.domain;
 
-import javax.validation.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,15 +21,11 @@ import lombok.ToString;
 @ToString
 public class Person {
 
-  @NotBlank
   private String nombre;
 
-  @NotBlank
   private String apellidoPaterno;
 
-  @NotBlank
   private String apellidoMaterno;
 
-  @NotBlank
   private String sexo;
 }
