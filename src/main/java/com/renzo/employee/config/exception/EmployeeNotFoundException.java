@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class EmployeeNotFoundException extends Exception {
+public class EmployeeNotFoundException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
