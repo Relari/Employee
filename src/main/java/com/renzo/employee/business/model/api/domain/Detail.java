@@ -1,12 +1,7 @@
 package com.renzo.employee.business.model.api.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,16 +12,12 @@ import lombok.ToString;
  */
 
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
 @Setter
 @ToString
 public class Detail {
 
-  @NotBlank
   private String cargo;
 
-  @NotNull
   private Double salario;
 }
