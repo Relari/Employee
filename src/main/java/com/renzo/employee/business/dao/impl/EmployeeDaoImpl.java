@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class EmployeeDaoImpl implements EmployeeDao {
+class EmployeeDaoImpl implements EmployeeDao {
 
   private EmployeeRepository employeeRepository;
 
@@ -36,38 +36,38 @@ public class EmployeeDaoImpl implements EmployeeDao {
   @Override
   public Observable<EmployeeDto> findAll() {
     return Observable.fromCallable(() -> employeeRepository.findAll())
+        .subscribeOn(Schedulers.io())
         .flatMapIterable(employeeEntities -> employeeEntities)
         .map(this::buildEmployee)
         .doOnNext(employeeDto -> log.trace(employeeDto.toString()))
         .doOnSubscribe(disposable -> log.debug("Starting to list the employees."))
-        .doOnComplete(() -> log.info("The list of employees is completely ready."))
-        .subscribeOn(Schedulers.io());
+        .doOnComplete(() -> log.info("The list of employees is completely ready."));
   }
 
   @Override
   public Completable saveEmployee(EmployeeDto employeeDto) {
     return Single.fromCallable(() -> buildEmployeeEntity(employeeDto))
         .map(employeeRepository::save)
+        .subscribeOn(Schedulers.io())
         .onErrorResumeNext(throwable ->
                 Single.error(new EmployeeException(applicationProperties.getGetEmployee(), throwable)))
         .doOnSubscribe(disposable -> log.debug("Starting to save the employee."))
         .doOnError(throwable -> log.error("An error occurred while saving the employee.", throwable))
         .ignoreElement()
-        .doOnComplete(() -> log.info("The employee was successfully saved."))
-        .subscribeOn(Schedulers.io());
+        .doOnComplete(() -> log.info("The employee was successfully saved."));
   }
 
   @Override
   public Single<EmployeeDto> findById(Integer id) {
     return Single.fromCallable(() -> employeeRepository.findById(id).get())
+        .subscribeOn(Schedulers.io())
         .map(this::buildEmployee)
         .onErrorResumeNext(throwable ->
                 Single.error(new EmployeeNotFoundException(applicationProperties.getGetEmployee(), throwable)))
         .doOnSubscribe(disposable -> log.debug("Consulting the employee with id " + id))
         .doOnError(throwable -> log.error("Employee not found - id " + id,
             throwable))
-        .doOnSuccess(employee -> log.info("The employee was found with the id" + id))
-        .subscribeOn(Schedulers.io());
+        .doOnSuccess(employee -> log.info("The employee was found with the id" + id));
   }
 
   private EmployeeDto buildEmployee(EmployeeEntity employeeEntity) {
