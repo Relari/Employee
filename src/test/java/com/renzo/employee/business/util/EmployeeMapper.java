@@ -1,59 +1,51 @@
 package com.renzo.employee.business.util;
 
-import com.renzo.employee.business.model.api.domain.Detail;
-import com.renzo.employee.business.model.api.domain.Person;
+import com.renzo.employee.business.model.api.request.EmployeeDetail;
+import com.renzo.employee.business.model.api.request.EmployeePerson;
 import com.renzo.employee.business.model.api.request.EmployeeRequest;
-import com.renzo.employee.business.model.dto.EmployeeDto;
+import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.model.entity.EmployeeEntity;
 
 public class EmployeeMapper {
 
   public EmployeeRequest employeeRequest() {
-    return EmployeeRequest.builder()
-        .person(person())
-        .detail(detail())
-        .build();
+
+    EmployeePerson employeePerson = EmployeePerson.builder()
+            .nombre(EmployeeTestConstant.nombre)
+            .apellidoPaterno(EmployeeTestConstant.apellidoPaterno)
+            .apellidoMaterno(EmployeeTestConstant.apellidoMaterno)
+            .sexo(EmployeeTestConstant.sexo)
+            .build();
+
+    EmployeeDetail employeeDetail = new EmployeeDetail(
+            EmployeeTestConstant.cargo, EmployeeTestConstant.salario);
+
+    return new EmployeeRequest(employeePerson, employeeDetail);
   }
 
-  private Person person() {
-    return Person.builder()
-        .nombre("Renzo")
-        .apellidoPaterno("Lavado")
-        .apellidoMaterno("Rivas")
-        .sexo("M")
-        .build();
-  }
-
-  private Detail detail() {
-    return Detail.builder()
-        .cargo("Sistemas")
-        .salario(2000.00)
-        .build();
-  }
-
-  public EmployeeDto employeeDto() {
-    return EmployeeDto.builder()
-        .idEmployee(1)
-        .nombre("Renzo")
-        .apellidoPaterno("Lavado")
-        .apellidoMaterno("Rivas")
-        .sexo("M")
-        .cargo("Sistemas")
-        .sueldo(2000.00)
-        .isActive(true)
+  public Employee employee() {
+    return Employee.builder()
+        .idEmployee(EmployeeTestConstant.idEmployee)
+        .nombre(EmployeeTestConstant.nombre)
+        .apellidoPaterno(EmployeeTestConstant.apellidoPaterno)
+        .apellidoMaterno(EmployeeTestConstant.apellidoMaterno)
+        .sexo(EmployeeTestConstant.sexo)
+        .cargo(EmployeeTestConstant.cargo)
+        .sueldo(EmployeeTestConstant.salario)
+        .isActive(EmployeeTestConstant.isActive)
         .build();
   }
 
   public EmployeeEntity employeeEntity() {
     return EmployeeEntity.builder()
-        .id(1)
-        .nombre("Renzo")
-        .apellidoPaterno("Lavado")
-        .apellidoMaterno("Rivas")
-        .sexo("M")
-        .cargo("Sistemas")
-        .sueldo(2000.00)
-        .isActive(true)
+        .id(EmployeeTestConstant.idEmployee)
+        .nombre(EmployeeTestConstant.nombre)
+        .apellidoPaterno(EmployeeTestConstant.apellidoPaterno)
+        .apellidoMaterno(EmployeeTestConstant.apellidoMaterno)
+        .sexo(EmployeeTestConstant.sexo)
+        .cargo(EmployeeTestConstant.cargo)
+        .sueldo(EmployeeTestConstant.salario)
+        .isActive(EmployeeTestConstant.isActive)
         .build();
   }
 }

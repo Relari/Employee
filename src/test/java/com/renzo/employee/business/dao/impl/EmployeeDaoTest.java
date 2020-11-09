@@ -1,23 +1,18 @@
 package com.renzo.employee.business.dao.impl;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
-
+import com.renzo.employee.business.dao.repository.EmployeeRepository;
+import com.renzo.employee.business.model.business.Employee;
+import com.renzo.employee.business.util.EmployeeMapper;
+import com.renzo.employee.config.ApplicationProperties;
 import com.renzo.employee.config.exception.EmployeeException;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.renzo.employee.business.dao.impl.EmployeeDaoImpl;
-import com.renzo.employee.business.dao.repository.EmployeeRepository;
-import com.renzo.employee.business.model.dto.EmployeeDto;
-import com.renzo.employee.business.util.EmployeeMapper;
-import com.renzo.employee.config.ApplicationProperties;
 
 import io.reactivex.observers.TestObserver;
 
@@ -33,15 +28,15 @@ class EmployeeDaoTest {
   @InjectMocks
   private EmployeeDaoImpl employeeDao;
 
-  private EmployeeMapper employeeMapper = new EmployeeMapper();
+  private final EmployeeMapper employeeMapper = new EmployeeMapper();
 
   @Test
   void whenFindAllThenReturnListEmployees() {
 
     Mockito.when(employeeRepository.findAll())
-        .thenReturn(Arrays.asList(employeeMapper.employeeEntity()));
+        .thenReturn(Collections.singletonList(employeeMapper.employeeEntity()));
 
-    TestObserver<EmployeeDto> testObserver = employeeDao.findAll().test();
+    TestObserver<Employee> testObserver = employeeDao.findAll().test();
 
     testObserver.awaitTerminalEvent();
 
@@ -55,7 +50,7 @@ class EmployeeDaoTest {
     Mockito.when(employeeRepository.findById(Mockito.anyInt()))
         .thenReturn(Optional.of(employeeMapper.employeeEntity()));
 
-    TestObserver<EmployeeDto> testObserver = employeeDao.findById(1).test();
+    TestObserver<Employee> testObserver = employeeDao.findById(1).test();
 
     testObserver.awaitTerminalEvent();
 
@@ -69,7 +64,7 @@ class EmployeeDaoTest {
     Mockito.when(employeeRepository.save(Mockito.any()))
         .thenReturn(employeeMapper.employeeEntity());
 
-    TestObserver<Void> testObserver = employeeDao.saveEmployee(employeeMapper.employeeDto()).test();
+    TestObserver<Void> testObserver = employeeDao.save(employeeMapper.employee()).test();
 
     testObserver.awaitTerminalEvent();
 
@@ -80,9 +75,10 @@ class EmployeeDaoTest {
   @Test
   void whenFindByIdThenReturnEmpty() {
 
-    Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+    Mockito.when(employeeRepository.findById(Mockito.anyInt()))
+            .thenReturn(Optional.empty());
 
-    TestObserver<EmployeeDto> testObserver = employeeDao.findById(1).test();
+    TestObserver<Employee> testObserver = employeeDao.findById(1).test();
 
     testObserver.awaitTerminalEvent();
 
@@ -93,9 +89,10 @@ class EmployeeDaoTest {
   @Test
   void whenSaveEmployeeThenReturnError() {
 
-    Mockito.when(employeeRepository.save(Mockito.any())).thenReturn(employeeException());
+    Mockito.when(employeeRepository.save(Mockito.any()))
+            .thenReturn(employeeException());
 
-    TestObserver<Void> testObserver = employeeDao.saveEmployee(employeeMapper.employeeDto()).test();
+    TestObserver<Void> testObserver = employeeDao.save(employeeMapper.employee()).test();
 
     testObserver.awaitTerminalEvent();
 

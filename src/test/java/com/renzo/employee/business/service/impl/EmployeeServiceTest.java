@@ -1,19 +1,17 @@
 package com.renzo.employee.business.service.impl;
 
+import com.renzo.employee.business.util.EmployeeTestConstant;
 import com.renzo.employee.config.exception.EmployeeException;
 import com.renzo.employee.config.exception.EmployeeNotFoundException;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.renzo.employee.business.dao.EmployeeDao;
-import com.renzo.employee.business.model.dto.EmployeeDto;
-import com.renzo.employee.business.service.impl.EmployeeServiceImpl;
+import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.util.EmployeeMapper;
 
 import io.reactivex.Completable;
@@ -30,15 +28,15 @@ class EmployeeServiceTest {
   @InjectMocks
   private EmployeeServiceImpl employeeService;
 
-  private EmployeeMapper employeeMapper = new EmployeeMapper();
+  private final EmployeeMapper employeeMapper = new EmployeeMapper();
 
   @Test
   void whenFindAllThenReturnListEmployees() {
 
     Mockito.when(employeeDao.findAll())
-            .thenReturn(Observable.just(employeeMapper.employeeDto()));
+        .thenReturn(Observable.just(employeeMapper.employee()));
 
-    TestObserver<EmployeeDto> testObserver = employeeService.findAll().test();
+    TestObserver<Employee> testObserver = employeeService.findAll().test();
 
     testObserver.awaitTerminalEvent();
 
@@ -49,11 +47,11 @@ class EmployeeServiceTest {
   @Test
   void whenSaveEmployeeThenReturnSuccessful() {
 
-    Mockito.when(employeeDao.saveEmployee(Mockito.any()))
-            .thenReturn(Completable.complete());
+    Mockito.when(employeeDao.save(Mockito.any()))
+        .thenReturn(Completable.complete());
 
     TestObserver<Void> testObserver =
-        employeeService.saveEmployee(employeeMapper.employeeDto()).test();
+        employeeService.save(employeeMapper.employee()).test();
 
     testObserver.awaitTerminalEvent();
 
@@ -64,13 +62,21 @@ class EmployeeServiceTest {
   @Test
   void whenFindByIdThenReturnEmployee() {
     Mockito.when(employeeDao.findById(Mockito.anyInt()))
-        .thenReturn(Single.just(employeeMapper.employeeDto()));
+        .thenReturn(Single.just(employeeMapper.employee()));
 
-    TestObserver<EmployeeDto> testObserver = employeeService.findById(1).test();
+    TestObserver<Employee> testObserver = employeeService.findById(1).test();
 
     testObserver.awaitTerminalEvent();
 
-    testObserver.assertComplete().assertNoErrors();
+    testObserver.assertComplete().assertNoErrors()
+        .assertValue(employeeDto -> employeeDto.getIdEmployee().equals(EmployeeTestConstant.idEmployee))
+        .assertValue(employeeDto -> employeeDto.getNombre().equals(EmployeeTestConstant.nombre))
+        .assertValue(employeeDto -> employeeDto.getApellidoPaterno().equals(EmployeeTestConstant.apellidoPaterno))
+        .assertValue(employeeDto -> employeeDto.getApellidoMaterno().equals(EmployeeTestConstant.apellidoMaterno))
+        .assertValue(employeeDto -> employeeDto.getSexo().equals(EmployeeTestConstant.sexo))
+        .assertValue(employeeDto -> employeeDto.getCargo().equals(EmployeeTestConstant.cargo))
+        .assertValue(employeeDto -> employeeDto.getSueldo().equals(EmployeeTestConstant.salario))
+        .assertValue(employeeDto -> employeeDto.getIsActive().equals(EmployeeTestConstant.isActive));
 
   }
   
@@ -78,9 +84,9 @@ class EmployeeServiceTest {
   void whenFindByIdThenReturnError() {
 
     Mockito.when(employeeDao.findById(Mockito.anyInt()))
-            .thenReturn(Single.error(this::employeeNotFoundException));
+        .thenReturn(Single.error(this::employeeNotFoundException));
 
-    TestObserver<EmployeeDto> testObserver = employeeService.findById(1).test();
+    TestObserver<Employee> testObserver = employeeService.findById(1).test();
 
     testObserver.awaitTerminalEvent();
 
@@ -91,10 +97,10 @@ class EmployeeServiceTest {
   @Test
   void whenSaveEmployeeThenReturnError() {
 
-    Mockito.when(employeeDao.saveEmployee(Mockito.any()))
-            .thenReturn(Completable.error(this::employeeException));
+    Mockito.when(employeeDao.save(Mockito.any()))
+        .thenReturn(Completable.error(this::employeeException));
 
-    TestObserver<Void> testObserver = employeeService.saveEmployee(employeeMapper.employeeDto()).test();
+    TestObserver<Void> testObserver = employeeService.save(employeeMapper.employee()).test();
 
     testObserver.awaitTerminalEvent();
 
