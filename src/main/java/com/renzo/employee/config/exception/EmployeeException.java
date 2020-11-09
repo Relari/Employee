@@ -23,7 +23,7 @@ public class EmployeeException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
-  private String message;
+  private final String message;
 
   public EmployeeException(String message, Throwable throwable) {
     super(throwable);

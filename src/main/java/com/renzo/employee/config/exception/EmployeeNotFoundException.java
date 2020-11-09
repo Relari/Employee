@@ -23,7 +23,7 @@ public class EmployeeNotFoundException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
-  private String message;
+  private final String message;
 
   public EmployeeNotFoundException(String message, Throwable throwable) {
     super(throwable);
