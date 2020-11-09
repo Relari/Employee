@@ -1,11 +1,12 @@
 package com.renzo.employee.business.model.api.request;
 
-import com.renzo.employee.business.model.api.request.constant.EmployeeConstant;
+import static com.renzo.employee.business.model.api.request.EmployeeConstant.ONLY_LETTERS;
+import static com.renzo.employee.business.model.api.request.EmployeeConstant.REGEXP_SEX;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
@@ -17,15 +18,16 @@ import javax.validation.constraints.Pattern;
  * @version 1.0.0
  */
 
-@AllArgsConstructor
+
 @Builder
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeePerson {
 
   @NotBlank
-  @Pattern(regexp = EmployeeConstant.onlyLettersWithSpace)
+  @Pattern(regexp = ONLY_LETTERS)
   @ApiModelProperty(
           name = "nombre",
           dataType = "String",
@@ -35,7 +37,7 @@ public class EmployeePerson {
   private String nombre;
 
   @NotBlank
-  @Pattern(regexp = EmployeeConstant.onlyLettersWithSpace)
+  @Pattern(regexp = ONLY_LETTERS)
   @ApiModelProperty(
           name = "apellidoPaterno",
           dataType = "String",
@@ -45,7 +47,7 @@ public class EmployeePerson {
   private String apellidoPaterno;
 
   @NotBlank
-  @Pattern(regexp = EmployeeConstant.onlyLettersWithSpace)
+  @Pattern(regexp = ONLY_LETTERS)
   @ApiModelProperty(
           name = "apellidoMaterno",
           dataType = "String",
@@ -55,7 +57,7 @@ public class EmployeePerson {
   private String apellidoMaterno;
 
   @NotBlank
-  @Pattern(regexp = EmployeeConstant.regexpSex)
+  @Pattern(regexp = REGEXP_SEX)
   @ApiModelProperty(
           name = "sexo",
           dataType = "String",

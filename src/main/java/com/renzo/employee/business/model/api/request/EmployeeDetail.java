@@ -1,10 +1,10 @@
 package com.renzo.employee.business.model.api.request;
 
-import com.renzo.employee.business.model.api.request.constant.EmployeeConstant;
+import static com.renzo.employee.business.model.api.request.EmployeeConstant.ONLY_LETTERS;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
@@ -17,14 +17,14 @@ import javax.validation.constraints.Pattern;
  * @version 1.0.0
  */
 
-@AllArgsConstructor
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDetail {
 
   @NotBlank
-  @Pattern(regexp = EmployeeConstant.onlyLettersWithSpace)
+  @Pattern(regexp = ONLY_LETTERS)
   @ApiModelProperty(
           name = "cargo",
           dataType = "String",
