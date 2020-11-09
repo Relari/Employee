@@ -2,7 +2,7 @@ package com.renzo.employee.controller;
 
 import com.renzo.employee.business.model.api.request.EmployeeRequest;
 import com.renzo.employee.business.model.api.response.PersonResponse;
-import com.renzo.employee.business.model.dto.EmployeeDto;
+import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.service.EmployeeService;
 
 import io.reactivex.Completable;
@@ -36,46 +36,52 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 class EmployeeController {
 
-  private EmployeeService employeeService;
+  private final EmployeeService employeeService;
 
-  @GetMapping(path = "")
-  @ApiOperation(value = "Listado de Empleados", notes = "Retorna todos los Empleados",
-      produces = "application/json")
-  @ApiResponses(value = {@ApiResponse(code = 200, message = "Retorna todos los Empleados")})
+  @ApiOperation(
+          value = "Listado de Empleados",
+          notes = "Retorna todos los Empleados",
+          produces = "application/json")
+  @ApiResponses(value = {
+          @ApiResponse(
+                  code = 200,
+                  message = "Retorna todos los Empleados")})
+  @GetMapping
   public Observable<PersonResponse> listOfEmployees() {
     return this.employeeService.findAll()
-            .map(this::buildPersonResponse);
+            .map(this::mapPersonResponse);
   }
 
   @GetMapping(path = "/{id}")
   public Single<PersonResponse> findEmployeeById(@PathVariable("id") Integer id) {
     return employeeService.findById(id)
-            .map(this::buildPersonResponse);
+            .map(this::mapPersonResponse);
   }
 
+  @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping(path = "")
-  public Completable saveEmployee(@RequestBody EmployeeRequest employeeRequest) {
-    return Single.fromCallable(() -> buildEmployeeDto(employeeRequest))
-            .flatMapCompletable(employeeService::saveEmployee);
+  public Completable save(@RequestBody EmployeeRequest employeeRequest) {
+    return Single.fromCallable(() -> mapEmployee(employeeRequest))
+            .flatMapCompletable(employeeService::save);
   }
 
-  private EmployeeDto buildEmployeeDto(EmployeeRequest employeeRequest) {
-    return EmployeeDto.builder()
+  private Employee mapEmployee(EmployeeRequest employeeRequest) {
+    return Employee.builder()
             .nombre(employeeRequest.getPerson().getNombre())
             .apellidoPaterno(employeeRequest.getPerson().getApellidoPaterno())
             .apellidoMaterno(employeeRequest.getPerson().getApellidoMaterno())
             .sexo(employeeRequest.getPerson().getSexo())
             .cargo(employeeRequest.getDetail().getCargo())
             .sueldo(employeeRequest.getDetail().getSalario())
+            .isActive(Boolean.TRUE)
             .build();
   }
-  private PersonResponse buildPersonResponse(EmployeeDto employeeDto) {
+  private PersonResponse mapPersonResponse(Employee employee) {
     return PersonResponse.builder()
-            .nombre(employeeDto.getNombre())
-            .apellidoPaterno(employeeDto.getApellidoPaterno())
-            .apellidoMaterno(employeeDto.getApellidoMaterno())
-            .sexo(employeeDto.getSexo())
+            .nombre(employee.getNombre())
+            .apellidoPaterno(employee.getApellidoPaterno())
+            .apellidoMaterno(employee.getApellidoMaterno())
+            .sexo(employee.getSexo())
             .build();
   }
 }

@@ -1,6 +1,6 @@
 package com.renzo.employee.business.service;
 
-import com.renzo.employee.business.model.dto.EmployeeDto;
+import com.renzo.employee.business.model.business.Employee;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -14,9 +14,9 @@ import io.reactivex.Single;
 
 public interface EmployeeService {
 
-  Observable<EmployeeDto> findAll();
+  Observable<Employee> findAll();
 
-  Completable saveEmployee(EmployeeDto employeeDto);
+  Completable save(Employee employee);
 
-  Single<EmployeeDto> findById(Integer id);
+  Single<Employee> findById(Integer id);
 }

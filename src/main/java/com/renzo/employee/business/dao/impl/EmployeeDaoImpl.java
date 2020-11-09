@@ -2,7 +2,7 @@ package com.renzo.employee.business.dao.impl;
 
 import com.renzo.employee.business.dao.EmployeeDao;
 import com.renzo.employee.business.dao.repository.EmployeeRepository;
-import com.renzo.employee.business.model.dto.EmployeeDto;
+import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.model.entity.EmployeeEntity;
 import com.renzo.employee.config.ApplicationProperties;
 import com.renzo.employee.config.exception.EmployeeException;
@@ -29,24 +29,24 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 class EmployeeDaoImpl implements EmployeeDao {
 
-  private EmployeeRepository employeeRepository;
+  private final EmployeeRepository employeeRepository;
 
-  private ApplicationProperties applicationProperties;
+  private final ApplicationProperties applicationProperties;
 
   @Override
-  public Observable<EmployeeDto> findAll() {
-    return Observable.fromCallable(() -> employeeRepository.findAll())
+  public Observable<Employee> findAll() {
+    return Observable.fromCallable(employeeRepository::findAll)
         .subscribeOn(Schedulers.io())
         .flatMapIterable(employeeEntities -> employeeEntities)
-        .map(this::buildEmployee)
+        .map(this::mapEmployee)
         .doOnNext(employeeDto -> log.trace(employeeDto.toString()))
         .doOnSubscribe(disposable -> log.debug("Starting to list the employees."))
         .doOnComplete(() -> log.info("The list of employees is completely ready."));
   }
 
   @Override
-  public Completable saveEmployee(EmployeeDto employeeDto) {
-    return Single.fromCallable(() -> buildEmployeeEntity(employeeDto))
+  public Completable save(Employee employee) {
+    return Single.fromCallable(() -> mapEmployeeEntity(employee))
         .map(employeeRepository::save)
         .subscribeOn(Schedulers.io())
         .onErrorResumeNext(throwable ->
@@ -58,10 +58,11 @@ class EmployeeDaoImpl implements EmployeeDao {
   }
 
   @Override
-  public Single<EmployeeDto> findById(Integer id) {
+  public Single<Employee> findById(Integer id) {
+
     return Single.fromCallable(() -> employeeRepository.findById(id).get())
         .subscribeOn(Schedulers.io())
-        .map(this::buildEmployee)
+        .map(this::mapEmployee)
         .onErrorResumeNext(throwable ->
                 Single.error(new EmployeeNotFoundException(applicationProperties.getGetEmployee(), throwable)))
         .doOnSubscribe(disposable -> log.debug("Consulting the employee with id " + id))
@@ -70,8 +71,8 @@ class EmployeeDaoImpl implements EmployeeDao {
         .doOnSuccess(employee -> log.info("The employee was found with the id" + id));
   }
 
-  private EmployeeDto buildEmployee(EmployeeEntity employeeEntity) {
-    return EmployeeDto.builder()
+  private Employee mapEmployee(EmployeeEntity employeeEntity) {
+    return Employee.builder()
         .idEmployee(employeeEntity.getId())
         .nombre(employeeEntity.getNombre())
         .apellidoPaterno(employeeEntity.getApellidoPaterno())
@@ -83,15 +84,15 @@ class EmployeeDaoImpl implements EmployeeDao {
         .build();
   }
 
-  private EmployeeEntity buildEmployeeEntity(EmployeeDto employeeDto) {
+  private EmployeeEntity mapEmployeeEntity(Employee employee) {
     return EmployeeEntity.builder()
-        .nombre(employeeDto.getNombre())
-        .apellidoPaterno(employeeDto.getApellidoPaterno())
-        .apellidoMaterno(employeeDto.getApellidoMaterno())
-        .sexo(employeeDto.getSexo())
-        .cargo(employeeDto.getCargo())
-        .sueldo(employeeDto.getSueldo())
-        .isActive(employeeDto.getIsActive())
+        .nombre(employee.getNombre())
+        .apellidoPaterno(employee.getApellidoPaterno())
+        .apellidoMaterno(employee.getApellidoMaterno())
+        .sexo(employee.getSexo())
+        .cargo(employee.getCargo())
+        .sueldo(employee.getSueldo())
+        .isActive(employee.getIsActive())
         .build();
   }
 }

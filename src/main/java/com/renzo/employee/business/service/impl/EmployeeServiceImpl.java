@@ -1,7 +1,7 @@
 package com.renzo.employee.business.service.impl;
 
 import com.renzo.employee.business.dao.EmployeeDao;
-import com.renzo.employee.business.model.dto.EmployeeDto;
+import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.service.EmployeeService;
 
 import io.reactivex.Completable;
@@ -22,27 +22,21 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 class EmployeeServiceImpl implements EmployeeService {
 
-  private EmployeeDao employeeDao;
+  private final EmployeeDao employeeDao;
 
   @Override
-  public Observable<EmployeeDto> findAll() {
-
+  public Observable<Employee> findAll() {
     return employeeDao.findAll();
   }
 
   @Override
-  public Completable saveEmployee(EmployeeDto employeeDto) {
-    return employeeDao.saveEmployee(addStatusToEmployeeDto(employeeDto));
+  public Completable save(Employee employee) {
+    return employeeDao.save(employee);
   }
 
   @Override
-  public Single<EmployeeDto> findById(Integer id) {
+  public Single<Employee> findById(Integer id) {
     return employeeDao.findById(id);
-  }
-  
-  private EmployeeDto addStatusToEmployeeDto(EmployeeDto employeeDto) {
-    employeeDto.setIsActive(Boolean.TRUE);
-    return employeeDto;
   }
   
 }
