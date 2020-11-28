@@ -50,7 +50,7 @@ class EmployeeDaoImpl implements EmployeeDao {
         .map(employeeRepository::save)
         .subscribeOn(Schedulers.io())
         .onErrorResumeNext(throwable ->
-                Single.error(new EmployeeException(applicationProperties.getGetEmployee(), throwable)))
+                Single.error(new EmployeeException(applicationProperties.getCreateEmployee(), throwable)))
         .doOnSubscribe(disposable -> log.debug("Starting to save the employee."))
         .doOnError(throwable -> log.error("An error occurred while saving the employee.", throwable))
         .ignoreElement()
@@ -60,7 +60,7 @@ class EmployeeDaoImpl implements EmployeeDao {
   @Override
   public Single<Employee> findById(Integer id) {
 
-    return Single.fromCallable(() -> employeeRepository.findById(id).get())
+    return Single.fromCallable(() -> findBy(id))
         .subscribeOn(Schedulers.io())
         .map(this::mapEmployee)
         .onErrorResumeNext(throwable ->
@@ -71,27 +71,32 @@ class EmployeeDaoImpl implements EmployeeDao {
         .doOnSuccess(employee -> log.info("The employee was found with the id" + id));
   }
 
+  private EmployeeEntity findBy(Integer id) {
+    return employeeRepository.findById(id)
+            .orElseThrow(() -> new EmployeeNotFoundException(applicationProperties.getGetEmployee(), null));
+  }
+
   private Employee mapEmployee(EmployeeEntity employeeEntity) {
     return Employee.builder()
         .idEmployee(employeeEntity.getId())
-        .nombre(employeeEntity.getNombre())
-        .apellidoPaterno(employeeEntity.getApellidoPaterno())
-        .apellidoMaterno(employeeEntity.getApellidoMaterno())
-        .sexo(employeeEntity.getSexo())
-        .cargo(employeeEntity.getCargo())
-        .sueldo(employeeEntity.getSueldo())
+        .firstName(employeeEntity.getFirstName())
+        .lastNameFather(employeeEntity.getLastNameFather())
+        .lastNameMother(employeeEntity.getLastNameMother())
+        .sex(employeeEntity.getSex())
+        .position(employeeEntity.getPosition())
+        .salary(employeeEntity.getSalary())
         .isActive(employeeEntity.getIsActive())
         .build();
   }
 
   private EmployeeEntity mapEmployeeEntity(Employee employee) {
     return EmployeeEntity.builder()
-        .nombre(employee.getNombre())
-        .apellidoPaterno(employee.getApellidoPaterno())
-        .apellidoMaterno(employee.getApellidoMaterno())
-        .sexo(employee.getSexo())
-        .cargo(employee.getCargo())
-        .sueldo(employee.getSueldo())
+        .firstName(employee.getFirstName())
+        .lastNameFather(employee.getLastNameFather())
+        .lastNameMother(employee.getLastNameMother())
+        .sex(employee.getSex())
+        .position(employee.getPosition())
+        .salary(employee.getSalary())
         .isActive(employee.getIsActive())
         .build();
   }

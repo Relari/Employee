@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * <b>Class:</b> EmployeeController.</br>
  * @author Renzo Lavado Rivas.
@@ -60,28 +62,28 @@ class EmployeeController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Completable save(@RequestBody EmployeeRequest employeeRequest) {
+  public Completable save(@RequestBody @Valid EmployeeRequest employeeRequest) {
     return Single.fromCallable(() -> mapEmployee(employeeRequest))
             .flatMapCompletable(employeeService::save);
   }
 
   private Employee mapEmployee(EmployeeRequest employeeRequest) {
     return Employee.builder()
-            .nombre(employeeRequest.getPerson().getNombre())
-            .apellidoPaterno(employeeRequest.getPerson().getApellidoPaterno())
-            .apellidoMaterno(employeeRequest.getPerson().getApellidoMaterno())
-            .sexo(employeeRequest.getPerson().getSexo())
-            .cargo(employeeRequest.getDetail().getCargo())
-            .sueldo(employeeRequest.getDetail().getSalario())
+            .firstName(employeeRequest.getPerson().getFirstName())
+            .lastNameFather(employeeRequest.getPerson().getLastNameFather())
+            .lastNameMother(employeeRequest.getPerson().getLastNameMother())
+            .sex(employeeRequest.getPerson().getSex())
+            .position(employeeRequest.getDetail().getPosition())
+            .salary(employeeRequest.getDetail().getSalary())
             .isActive(Boolean.TRUE)
             .build();
   }
   private PersonResponse mapPersonResponse(Employee employee) {
     return PersonResponse.builder()
-            .nombre(employee.getNombre())
-            .apellidoPaterno(employee.getApellidoPaterno())
-            .apellidoMaterno(employee.getApellidoMaterno())
-            .sexo(employee.getSexo())
+            .firstName(employee.getFirstName())
+            .lastNameFather(employee.getLastNameFather())
+            .lastNameMother(employee.getLastNameMother())
+            .sex(employee.getSex())
             .build();
   }
 }
