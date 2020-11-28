@@ -39,10 +39,10 @@ class EmployeeControllerTest {
     testObserver.awaitTerminalEvent();
 
     testObserver.assertComplete().assertNoErrors()
-        .assertValue(personResponse -> personResponse.getNombre().equals(EmployeeTestConstant.nombre))
-        .assertValue(personResponse -> personResponse.getApellidoPaterno().equals(EmployeeTestConstant.apellidoPaterno))
-        .assertValue(personResponse -> personResponse.getApellidoMaterno().equals(EmployeeTestConstant.apellidoMaterno))
-        .assertValue(personResponse -> personResponse.getSexo().equals(EmployeeTestConstant.sexo));
+        .assertValue(personResponse -> personResponse.getFirstName().equals(EmployeeTestConstant.nombre))
+        .assertValue(personResponse -> personResponse.getLastNameFather().equals(EmployeeTestConstant.apellidoPaterno))
+        .assertValue(personResponse -> personResponse.getLastNameMother().equals(EmployeeTestConstant.apellidoMaterno))
+        .assertValue(personResponse -> personResponse.getSex().equals(EmployeeTestConstant.sexo));
 
   }
 
@@ -70,9 +70,9 @@ class EmployeeControllerTest {
     testObserver.awaitTerminalEvent();
 
     testObserver.assertComplete().assertNoErrors()
-        .assertValue(personResponse -> personResponse.getNombre().equals(EmployeeTestConstant.nombre))
-        .assertValue(personResponse -> personResponse.getApellidoPaterno().equals(EmployeeTestConstant.apellidoPaterno))
-        .assertValue(personResponse -> personResponse.getApellidoMaterno().equals(EmployeeTestConstant.apellidoMaterno));
+        .assertValue(personResponse -> personResponse.getFirstName().equals(EmployeeTestConstant.nombre))
+        .assertValue(personResponse -> personResponse.getLastNameFather().equals(EmployeeTestConstant.apellidoPaterno))
+        .assertValue(personResponse -> personResponse.getLastNameMother().equals(EmployeeTestConstant.apellidoMaterno));
 
   }
 

@@ -70,12 +70,12 @@ class EmployeeServiceTest {
 
     testObserver.assertComplete().assertNoErrors()
         .assertValue(employeeDto -> employeeDto.getIdEmployee().equals(EmployeeTestConstant.idEmployee))
-        .assertValue(employeeDto -> employeeDto.getNombre().equals(EmployeeTestConstant.nombre))
-        .assertValue(employeeDto -> employeeDto.getApellidoPaterno().equals(EmployeeTestConstant.apellidoPaterno))
-        .assertValue(employeeDto -> employeeDto.getApellidoMaterno().equals(EmployeeTestConstant.apellidoMaterno))
-        .assertValue(employeeDto -> employeeDto.getSexo().equals(EmployeeTestConstant.sexo))
-        .assertValue(employeeDto -> employeeDto.getCargo().equals(EmployeeTestConstant.cargo))
-        .assertValue(employeeDto -> employeeDto.getSueldo().equals(EmployeeTestConstant.salario))
+        .assertValue(employeeDto -> employeeDto.getFirstName().equals(EmployeeTestConstant.nombre))
+        .assertValue(employeeDto -> employeeDto.getLastNameFather().equals(EmployeeTestConstant.apellidoPaterno))
+        .assertValue(employeeDto -> employeeDto.getLastNameMother().equals(EmployeeTestConstant.apellidoMaterno))
+        .assertValue(employeeDto -> employeeDto.getSex().equals(EmployeeTestConstant.sexo))
+        .assertValue(employeeDto -> employeeDto.getPosition().equals(EmployeeTestConstant.cargo))
+        .assertValue(employeeDto -> employeeDto.getSalary().equals(EmployeeTestConstant.salario))
         .assertValue(employeeDto -> employeeDto.getIsActive().equals(EmployeeTestConstant.isActive));
 
   }

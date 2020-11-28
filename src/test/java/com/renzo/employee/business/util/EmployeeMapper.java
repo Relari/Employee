@@ -11,10 +11,10 @@ public class EmployeeMapper {
   public EmployeeRequest employeeRequest() {
 
     EmployeePerson employeePerson = EmployeePerson.builder()
-            .nombre(EmployeeTestConstant.nombre)
-            .apellidoPaterno(EmployeeTestConstant.apellidoPaterno)
-            .apellidoMaterno(EmployeeTestConstant.apellidoMaterno)
-            .sexo(EmployeeTestConstant.sexo)
+            .firstName(EmployeeTestConstant.nombre)
+            .lastNameFather(EmployeeTestConstant.apellidoPaterno)
+            .lastNameMother(EmployeeTestConstant.apellidoMaterno)
+            .sex(EmployeeTestConstant.sexo)
             .build();
 
     EmployeeDetail employeeDetail = new EmployeeDetail(
@@ -26,12 +26,12 @@ public class EmployeeMapper {
   public Employee employee() {
     return Employee.builder()
         .idEmployee(EmployeeTestConstant.idEmployee)
-        .nombre(EmployeeTestConstant.nombre)
-        .apellidoPaterno(EmployeeTestConstant.apellidoPaterno)
-        .apellidoMaterno(EmployeeTestConstant.apellidoMaterno)
-        .sexo(EmployeeTestConstant.sexo)
-        .cargo(EmployeeTestConstant.cargo)
-        .sueldo(EmployeeTestConstant.salario)
+        .firstName(EmployeeTestConstant.nombre)
+        .lastNameFather(EmployeeTestConstant.apellidoPaterno)
+        .lastNameMother(EmployeeTestConstant.apellidoMaterno)
+        .sex(EmployeeTestConstant.sexo)
+        .position(EmployeeTestConstant.cargo)
+        .salary(EmployeeTestConstant.salario)
         .isActive(EmployeeTestConstant.isActive)
         .build();
   }
@@ -39,12 +39,12 @@ public class EmployeeMapper {
   public EmployeeEntity employeeEntity() {
     return EmployeeEntity.builder()
         .id(EmployeeTestConstant.idEmployee)
-        .nombre(EmployeeTestConstant.nombre)
-        .apellidoPaterno(EmployeeTestConstant.apellidoPaterno)
-        .apellidoMaterno(EmployeeTestConstant.apellidoMaterno)
-        .sexo(EmployeeTestConstant.sexo)
-        .cargo(EmployeeTestConstant.cargo)
-        .sueldo(EmployeeTestConstant.salario)
+        .firstName(EmployeeTestConstant.nombre)
+        .lastNameFather(EmployeeTestConstant.apellidoPaterno)
+        .lastNameMother(EmployeeTestConstant.apellidoMaterno)
+        .sex(EmployeeTestConstant.sexo)
+        .position(EmployeeTestConstant.cargo)
+        .salary(EmployeeTestConstant.salario)
         .isActive(EmployeeTestConstant.isActive)
         .build();
   }
