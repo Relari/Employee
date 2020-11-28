@@ -1,7 +1,15 @@
 spring:
+#  Cadena de conexion para mongodb
+#  data:
+#    mongodb:
+#      database: prueba
+#      port: 27017
+#      host: localhost
+  
   jpa:
-    database: postgresql
-    show-sql: false
+#    database: postgresql
+    database: mysql
+    show-sql: true
     hibernate:
       ddl-auto: update
     properties:
@@ -10,10 +18,19 @@ spring:
           lob:
             non_contextual_creation: true
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost/prueba
-    username: postgres
-    password: renzo123
+#    Cadena de conexion a PostgreSQL
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost/prueba
+#    username: postgres
+#    password: renzo123
+
+#    Cadena de conexion a MySQL
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password:
+
+server.port: 8081
 
 application:
   error:
