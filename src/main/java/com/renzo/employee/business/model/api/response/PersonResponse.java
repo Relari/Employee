@@ -28,27 +28,27 @@ public class PersonResponse {
           example = "Ricardo",
           dataType = "String",
           position = 1)
-  private String nombre;
+  private String firstName;
 
   @ApiModelProperty(
           value = "Apellido Paterno del Empleado",
           example = "Lozano",
           dataType = "String",
           position = 2)
-  private String apellidoPaterno;
+  private String lastNameFather;
 
   @ApiModelProperty(
           value = "Apellido Materno del Empleado",
           example = "Lozano",
           dataType = "String",
           position = 3)
-  private String apellidoMaterno;
+  private String lastNameMother;
 
   @ApiModelProperty(
           value = "Sexo del Empleado",
           example = "M",
           dataType = "String",
           position = 4)
-  private String sexo;
+  private String sex;
 
 }

@@ -11,6 +11,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * <b>Class:</b> EmployeePerson.</br>
@@ -28,42 +29,45 @@ public class EmployeePerson {
 
   @NotBlank
   @Pattern(regexp = ONLY_LETTERS)
+  @Size(min = 1, max = 50)
   @ApiModelProperty(
           name = "nombre",
           dataType = "String",
           example = "Daniel",
           required = true
   )
-  private String nombre;
+  private String firstName;
 
   @NotBlank
   @Pattern(regexp = ONLY_LETTERS)
+  @Size(min = 1, max = 50)
   @ApiModelProperty(
-          name = "apellidoPaterno",
+          name = "lastNameFather",
           dataType = "String",
           example = "Gonzales",
           required = true
   )
-  private String apellidoPaterno;
+  private String lastNameFather;
 
   @NotBlank
   @Pattern(regexp = ONLY_LETTERS)
+  @Size(min = 1, max = 50)
   @ApiModelProperty(
-          name = "apellidoMaterno",
+          name = "lastNameMother",
           dataType = "String",
           example = "Perez",
           required = true
   )
-  private String apellidoMaterno;
+  private String lastNameMother;
 
   @NotBlank
   @Pattern(regexp = REGEXP_SEX)
   @ApiModelProperty(
-          name = "sexo",
+          name = "sex",
           dataType = "String",
           example = "M",
           required = true
   )
-  private String sexo;
+  private String sex;
 
 }

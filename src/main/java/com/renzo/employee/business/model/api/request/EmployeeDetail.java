@@ -10,6 +10,7 @@ import lombok.ToString;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * <b>Class:</b> EmployeeDetail.</br>
@@ -25,20 +26,21 @@ public class EmployeeDetail {
 
   @NotBlank
   @Pattern(regexp = ONLY_LETTERS)
+  @Size(min = 1, max = 50)
   @ApiModelProperty(
-          name = "cargo",
+          name = "position",
           dataType = "String",
           example = "Asistente",
           required = true
   )
-  private String cargo;
+  private String position;
 
   @NotNull
   @ApiModelProperty(
-          name = "salario",
+          name = "salary",
           dataType = "String",
           example = "1500",
           required = true
   )
-  private Double salario;
+  private Double salary;
 }

@@ -20,11 +20,11 @@ import lombok.ToString;
 public class Employee {
 
   private Integer idEmployee;
-  private String apellidoPaterno;
-  private String apellidoMaterno;
-  private String nombre;
-  private String cargo;
-  private String sexo;
-  private Double sueldo;
+  private String lastNameFather;
+  private String lastNameMother;
+  private String firstName;
+  private String position;
+  private String sex;
+  private Double salary;
   private Boolean isActive;
 }

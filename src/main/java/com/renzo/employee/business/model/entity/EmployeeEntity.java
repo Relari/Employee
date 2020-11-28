@@ -31,26 +31,27 @@ import lombok.ToString;
 public class EmployeeEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+//  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY) // MySQL
   private Integer id;
 
-  @Column(name = "apellidoPaterno", length = 50, nullable = false)
-  private String apellidoPaterno;
+  @Column(name = "lastNameFather", length = 50, nullable = false)
+  private String lastNameFather;
 
-  @Column(name = "apellidoMaterno", length = 50, nullable = false)
-  private String apellidoMaterno;
+  @Column(name = "lastNameMother", length = 50, nullable = false)
+  private String lastNameMother;
 
-  @Column(name = "nombre", length = 50, nullable = false)
-  private String nombre;
+  @Column(name = "firstName", length = 50, nullable = false)
+  private String firstName;
 
-  @Column(name = "cargo", length = 50, nullable = false)
-  private String cargo;
+  @Column(name = "position", length = 50, nullable = false)
+  private String position;
 
-  @Column(name = "sexo", length = 1, nullable = false)
-  private String sexo;
+  @Column(name = "sex", length = 1, nullable = false)
+  private String sex;
 
-  @Column(name = "sueldo", nullable = false)
-  private Double sueldo;
+  @Column(name = "salary", nullable = false)
+  private Double salary;
 
   @Column(name = "isActive", nullable = false)
   private Boolean isActive;
