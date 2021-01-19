@@ -2,11 +2,11 @@ package com.renzo.employee.business.dao.impl;
 
 import com.renzo.employee.business.dao.EmployeeDao;
 import com.renzo.employee.business.dao.repository.EmployeeRepository;
+import com.renzo.employee.business.exception.ErrorCategory;
 import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.model.entity.EmployeeEntity;
 import com.renzo.employee.config.ApplicationProperties;
-import com.renzo.employee.config.exception.EmployeeException;
-import com.renzo.employee.config.exception.EmployeeNotFoundException;
+import com.renzo.employee.business.exception.ExceptionFactory;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -50,7 +50,12 @@ class EmployeeDaoImpl implements EmployeeDao {
         .map(employeeRepository::save)
         .subscribeOn(Schedulers.io())
         .onErrorResumeNext(throwable ->
-                Single.error(new EmployeeException(applicationProperties.getCreateEmployee(), throwable)))
+                Single.error(ExceptionFactory.builder()
+                        .message(applicationProperties.getCreateEmployee())
+                        .errorCategory(ErrorCategory.INTERNAL_ERROR)
+                        .throwable(throwable)
+                        .build()
+                        .getException()))
         .doOnSubscribe(disposable -> log.debug("Starting to save the employee."))
         .doOnError(throwable -> log.error("An error occurred while saving the employee.", throwable))
         .ignoreElement()
@@ -63,8 +68,6 @@ class EmployeeDaoImpl implements EmployeeDao {
     return Single.fromCallable(() -> findBy(id))
         .subscribeOn(Schedulers.io())
         .map(this::mapEmployee)
-        .onErrorResumeNext(throwable ->
-                Single.error(new EmployeeNotFoundException(applicationProperties.getGetEmployee(), throwable)))
         .doOnSubscribe(disposable -> log.debug("Consulting the employee with id " + id))
         .doOnError(throwable -> log.error("Employee not found - id " + id,
             throwable))
@@ -73,7 +76,11 @@ class EmployeeDaoImpl implements EmployeeDao {
 
   private EmployeeEntity findBy(Integer id) {
     return employeeRepository.findById(id)
-            .orElseThrow(() -> new EmployeeNotFoundException(applicationProperties.getGetEmployee(), null));
+            .orElseThrow(() -> ExceptionFactory.builder()
+                    .message(applicationProperties.getGetEmployee())
+                    .errorCategory(ErrorCategory.NOT_FOUND)
+                    .build()
+                    .getException());
   }
 
   private Employee mapEmployee(EmployeeEntity employeeEntity) {

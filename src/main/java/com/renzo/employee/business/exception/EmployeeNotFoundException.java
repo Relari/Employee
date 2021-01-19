@@ -1,6 +1,4 @@
-package com.renzo.employee.config.exception;
-
-import lombok.Getter;
+package com.renzo.employee.business.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,17 +15,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @version 1.0.0
  */
 
-@Getter
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class EmployeeNotFoundException extends RuntimeException {
+class EmployeeNotFoundException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
-  private final String message;
+  public EmployeeNotFoundException(String message) {
+    super(message);
+  }
 
   public EmployeeNotFoundException(String message, Throwable throwable) {
-    super(throwable);
-    this.message = message;
+    super(message, throwable);
   }
   
 }
