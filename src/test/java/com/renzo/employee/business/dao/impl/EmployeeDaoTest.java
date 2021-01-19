@@ -3,10 +3,11 @@ package com.renzo.employee.business.dao.impl;
 import java.util.Collections;
 import java.util.Optional;
 import com.renzo.employee.business.dao.repository.EmployeeRepository;
+import com.renzo.employee.business.exception.ErrorCategory;
+import com.renzo.employee.business.exception.ExceptionFactory;
 import com.renzo.employee.business.model.business.Employee;
 import com.renzo.employee.business.util.EmployeeMapper;
 import com.renzo.employee.config.ApplicationProperties;
-import com.renzo.employee.config.exception.EmployeeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -100,8 +101,13 @@ class EmployeeDaoTest {
 
   }
 
-  private EmployeeException employeeException() {
-    return new EmployeeException("Failed to save an employee.", new Throwable());
+  private RuntimeException employeeException() {
+    return ExceptionFactory.builder()
+            .errorCategory(ErrorCategory.INTERNAL_ERROR)
+            .message("Failed to save an employee.")
+            .throwable(new Throwable())
+            .build()
+            .getException();
   }
 
 }

@@ -1,8 +1,7 @@
 package com.renzo.employee.business.service.impl;
 
+import com.renzo.employee.business.exception.ExceptionFactory;
 import com.renzo.employee.business.util.EmployeeTestConstant;
-import com.renzo.employee.config.exception.EmployeeException;
-import com.renzo.employee.config.exception.EmployeeNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -84,7 +83,7 @@ class EmployeeServiceTest {
   void whenFindByIdThenReturnError() {
 
     Mockito.when(employeeDao.findById(Mockito.anyInt()))
-        .thenReturn(Single.error(this::employeeNotFoundException));
+        .thenReturn(Single.error(this::employeeException));
 
     TestObserver<Employee> testObserver = employeeService.findById(1).test();
 
@@ -108,12 +107,12 @@ class EmployeeServiceTest {
 
   }
 
-  private EmployeeException employeeException() {
-    return new EmployeeException("Failed to save an employee.", new Throwable());
-  }
-
-  private EmployeeNotFoundException employeeNotFoundException() {
-    return new EmployeeNotFoundException("Error searching for an employee.", new Throwable());
+  private RuntimeException employeeException() {
+    return ExceptionFactory.builder()
+            .message("Failed to save an employee.")
+            .throwable(new Throwable())
+            .build()
+            .getException();
   }
 
 }
