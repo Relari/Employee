@@ -22,10 +22,10 @@ public class EmployeeRequest {
 
   @Valid
   @NotNull
-  private EmployeePerson person;
+  private PersonModel person;
 
   @Valid
   @NotNull
-  private EmployeeDetail detail;
+  private DetailModel detail;
 
 }

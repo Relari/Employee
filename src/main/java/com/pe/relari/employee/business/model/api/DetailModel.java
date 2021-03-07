@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * <b>Class:</b> EmployeeDetail.</br>
+ * <b>Class:</b> DetailModel.</br>
  * @author Renzo Lavado Rivas.
  * @version 1.0.0
  */
@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDetail {
+public class DetailModel {
 
   @NotBlank
   @Pattern(regexp = ONLY_LETTERS)

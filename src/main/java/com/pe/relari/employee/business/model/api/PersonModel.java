@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * <b>Class:</b> EmployeePerson.</br>
+ * <b>Class:</b> PersonModel.</br>
  * @author Renzo Lavado Rivas.
  * @version 1.0.0
  */
@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeePerson {
+public class PersonModel {
 
   @NotBlank
   @Pattern(regexp = ONLY_LETTERS)

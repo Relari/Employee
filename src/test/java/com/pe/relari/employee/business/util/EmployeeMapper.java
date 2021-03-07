@@ -1,7 +1,7 @@
 package com.pe.relari.employee.business.util;
 
-import com.pe.relari.employee.business.model.api.EmployeeDetail;
-import com.pe.relari.employee.business.model.api.EmployeePerson;
+import com.pe.relari.employee.business.model.api.DetailModel;
+import com.pe.relari.employee.business.model.api.PersonModel;
 import com.pe.relari.employee.business.model.api.EmployeeRequest;
 import com.pe.relari.employee.business.model.business.Employee;
 import com.pe.relari.employee.business.model.entity.EmployeeEntity;
@@ -10,17 +10,17 @@ public class EmployeeMapper {
 
   public EmployeeRequest employeeRequest() {
 
-    EmployeePerson employeePerson = EmployeePerson.builder()
+    PersonModel personModel = PersonModel.builder()
             .firstName(EmployeeTestConstant.nombre)
             .lastNameFather(EmployeeTestConstant.apellidoPaterno)
             .lastNameMother(EmployeeTestConstant.apellidoMaterno)
             .sex(EmployeeTestConstant.sexo)
             .build();
 
-    EmployeeDetail employeeDetail = new EmployeeDetail(
+    DetailModel detailModel = new DetailModel(
             EmployeeTestConstant.cargo, EmployeeTestConstant.salario);
 
-    return new EmployeeRequest(employeePerson, employeeDetail);
+    return new EmployeeRequest(personModel, detailModel);
   }
 
   public Employee employee() {
