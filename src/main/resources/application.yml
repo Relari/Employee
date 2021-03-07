@@ -1,14 +1,6 @@
 spring:
-#  Cadena de conexion para mongodb
-#  data:
-#    mongodb:
-#      database: prueba
-#      port: 27017
-#      host: localhost
-  
   jpa:
-#    database: postgresql
-    database: mysql
+    database: postgresql
     show-sql: true
     hibernate:
       ddl-auto: update
@@ -18,17 +10,10 @@ spring:
           lob:
             non_contextual_creation: true
   datasource:
-#    Cadena de conexion a PostgreSQL
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost/prueba
-#    username: postgres
-#    password: renzo123
-
-#    Cadena de conexion a MySQL
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/demo
-    username: root
-    password:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/prueba
+    username: postgres
+    password: renzo123
 
 server.port: 8081
 
@@ -38,9 +23,9 @@ application:
       create-employee: 'Error al guardar al Employee'
       update-employee: 'Error al actualizar al Employee'
       get-employee: 'Employee no encontrado'
+  api:
+    path: '/business/v1/employees'
 
 logging:
   level:
-    com:
-      renzo:
-        employee: TRACE
+    com.pe.relari.employee: TRACE
